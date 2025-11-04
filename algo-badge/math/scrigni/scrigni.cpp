@@ -5,17 +5,17 @@
 double scosse(long long int N) { return N * (N - 1) / 4.0; }
 
 int main() {
-	FILE *fr, *fw;
-	long long int N;
+    FILE *fr, *fw;
+    long long int N;
 
-	fr = fopen("input.txt", "r");
-	fw = fopen("output.txt", "w");
-	assert(fr != NULL && fw != NULL);
-	assert(1 == fscanf(fr, "%lld", &N));
+    fr = fopen("input.txt", "r");
+    fw = fopen("output.txt", "w");
+    assert(fr != NULL && fw != NULL);
+    assert(1 == fscanf(fr, "%lld", &N));
 
-	fprintf(fw, "%.6f\n", scosse(N));
+    fprintf(fw, "%.6f\n", scosse(N));
 
-	fclose(fr);
-	fclose(fw);
-	return 0;
+    fclose(fr);
+    fclose(fw);
+    return 0;
 }

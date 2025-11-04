@@ -5,59 +5,53 @@
 #include <vector>
 using namespace std;
 
-void mincammino(int N, int M, vector<int> X, vector<int> Y, vector<int> P,
-				vector<long long> &D) {
+void mincammino(int N, int M, vector<int> X, vector<int> Y, vector<int> P, vector<long long> &D) {
+    vector<vector<pair<int, int>>> adj(N);
+    for (int i = 0; i < M; i++) adj[X[i]].push_back({Y[i], P[i]});
 
-	vector<vector<pair<int, int>>> adj(N);
-	for (int i = 0; i < M; i++)
-		adj[X[i]].push_back({Y[i], P[i]});
+    for (int i = 0; i < N; i++) D[i] = LLONG_MAX;
 
-	for (int i = 0; i < N; i++)
-		D[i] = LLONG_MAX;
+    vector<bool> processed(N, false);
+    priority_queue<pair<long long, int>> q;
+    D[0] = 0;
+    q.push({0, 0});
 
-	vector<bool> processed(N, false);
-	priority_queue<pair<long long, int>> q;
-	D[0] = 0;
-	q.push({0, 0});
+    while (!q.empty()) {
+        int x = q.top().second;
+        q.pop();
 
-	while (!q.empty()) {
-		int x = q.top().second;
-		q.pop();
+        if (processed[x]) continue;
+        processed[x] = true;
 
-		if (processed[x])
-			continue;
-		processed[x] = true;
+        for (auto u : adj[x]) {
+            int y = u.first;
+            int weight = u.second;
+            if (D[y] > D[x] + weight) {
+                D[y] = D[x] + weight;
+                q.push({-D[y], y});  // Using negative for min-heap behavior
+            }
+        }
+    }
 
-		for (auto u : adj[x]) {
-			int y = u.first;
-			int weight = u.second;
-			if (D[y] > D[x] + weight) {
-				D[y] = D[x] + weight;
-				q.push({-D[y], y}); // Using negative for min-heap behavior
-			}
-		}
-	}
-
-	for (int i = 0; i < N; i++)
-		if (D[i] == LLONG_MAX)
-			D[i] = -1;
+    for (int i = 0; i < N; i++)
+        if (D[i] == LLONG_MAX) D[i] = -1;
 }
 
 int main() {
-	int N, M;
-	cin >> N >> M;
+    int N, M;
+    cin >> N >> M;
 
-	vector<int> X(M), Y(M), P(M);
-	vector<long long> D(N);
+    vector<int> X(M), Y(M), P(M);
+    vector<long long> D(N);
 
-	for (int i = 0; i < M; i++) {
-		cin >> X[i] >> Y[i] >> P[i];
-	}
+    for (int i = 0; i < M; i++) {
+        cin >> X[i] >> Y[i] >> P[i];
+    }
 
-	mincammino(N, M, X, Y, P, D);
+    mincammino(N, M, X, Y, P, D);
 
-	for (int i = 0; i < N; i++) {
-		cout << D[i] << ' ';
-	}
-	cout << '\n';
+    for (int i = 0; i < N; i++) {
+        cout << D[i] << ' ';
+    }
+    cout << '\n';
 }

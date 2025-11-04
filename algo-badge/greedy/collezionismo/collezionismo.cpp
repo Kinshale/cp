@@ -1,6 +1,6 @@
+#include <algorithm>
 #include <cstdio>
 #include <cstring>
-#include <algorithm>
 #include <fstream>
 #include <iostream>
 #include <numeric>
@@ -23,12 +23,11 @@ void solve(int t) {
     sort(C.begin(), C.end());
     std::priority_queue<int> maxHeap;
 
-    for (size_t i = 1; i < C.size(); i++)
-        maxHeap.push(C[i] - C[i - 1]);
+    for (size_t i = 1; i < C.size(); i++) maxHeap.push(C[i] - C[i - 1]);
 
     int maxDifference = 0;
 
-    for (size_t i = 1; i < K; i++){
+    for (size_t i = 1; i < K; i++) {
         maxDifference += maxHeap.top();
         maxHeap.pop();
     }

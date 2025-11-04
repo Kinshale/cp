@@ -12,8 +12,8 @@ void solve(int t) {
     cin >> S;
 
     // Aggiungi codice se vuoi
-	vector<string> baskets(M);
-	baskets[0] = S;
+    vector<string> baskets(M);
+    baskets[0] = S;
 
     string risposta;
 
@@ -23,9 +23,9 @@ void solve(int t) {
         cin >> type >> a >> b;
 
         if (type == 's') {
-			char temp = baskets[a].back(); 
-			baskets[a].pop_back();
-			baskets[b].push_back(temp);
+            char temp = baskets[a].back();
+            baskets[a].pop_back();
+            baskets[b].push_back(temp);
         } else {
             risposta.push_back(baskets[a][b]);
         }
@@ -35,7 +35,6 @@ void solve(int t) {
 }
 
 int main() {
-
     int T;
     cin >> T;
 

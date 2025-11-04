@@ -6,18 +6,16 @@
 
 using namespace std;
 
-int gcd(int a, int b){
+int gcd(int a, int b) {
     while (b != 0) {
         int temp = b;
         b = a % b;
         a = temp;
     }
-    return a; 
+    return a;
 }
 
-int lcm(int a, int b){
-    return (a / gcd(a,b)) * b;
-}
+int lcm(int a, int b) { return (a / gcd(a, b)) * b; }
 
 int main() {
     // decommenta le due righe seguenti se vuoi leggere/scrivere da file
@@ -31,14 +29,12 @@ int main() {
         cin >> N;
 
         vector<int> V(N);
-        for (int i = 0; i < N; ++i)
-            cin >> V[i];
+        for (int i = 0; i < N; ++i) cin >> V[i];
 
         int c = 1;
 
         // INSERISCI IL TUO CODICE QUI
-        for(int i = 0; i < N; ++i)
-            c = lcm(V[i], c);
+        for (int i = 0; i < N; ++i) c = lcm(V[i], c);
 
         cout << "Case #" << test << ": ";
         cout << c << endl;
