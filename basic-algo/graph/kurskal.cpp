@@ -1,6 +1,7 @@
 // LINK: https://cses.fi/problemset/task/1675
 
 // TITLE: Road Reparation.
+
 // IDEA: Basic MST (Kurskal Algorithm).
 
 #include <algorithm>
@@ -36,8 +37,8 @@ struct DSU {
         size[a] += size[b];
         parent[b] = a;
 
-        // INSIGHT: Union by Rank (size): Attach the smaller tree to the larger
-        // one to keep the structure flat.
+        // NOTE: Union by Rank (size):
+        // Attach the smaller tree to the large one to keep the structure flat.
         return true;
     }
 };

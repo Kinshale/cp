@@ -2,7 +2,7 @@
 
 // TITLE: Find Bridges (Edges that if removed, disconnect the graph).
 
-// IDEA: The algorithm builds a DFS spanning tree and classify edges:
+// The algorithm builds a DFS spanning tree and classify edges:
 //     Tree edges: Edges in the DFS tree
 //     Back edges: Edges connecting to ancestors (creating cycles)
 // It records discovery times in disc[u], and at each run tries to update low[u] an array that stores the earliest discovered node reachable from (not going backwards though).
@@ -30,7 +30,7 @@ class findBridges {
             if (disc[v] == -1) {  // tree edge
                 dfs(v, u);
 
-                // Get the propagating up changes to low (We may have got a circle)
+                // Get the propagating up changes to low (We may have got a cycle)
                 low[u] = min(low[u], low[v]);
 
                 // bridge condition

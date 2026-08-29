@@ -1,8 +1,8 @@
 // LINK: https://cses.fi/problemset/task/1196
 
-// TITLE: Flight Routes (Find the k shortest paths between two cities)
+// TITLE: Find the k shortest paths between two cities. We can rivisit the same city.
 
-// IDEA: Djikstra, which is a standard BFS with a priority queue.
+// IDEA: Djikstra, which is a standard BFS with a priority queue, with a twist: we store the k shortest path for each node.
 
 #include <climits>
 #include <functional>
@@ -22,7 +22,7 @@ int dijkstra(int n, int m, vector<vector<pair<int, int>>> adj) {
 
     // NOTE: We start at 0 and end at n
 
-    dist[0] = 0;
+    dist[1] = 0;
     q.push({0, 0});
 
     while (!q.empty()) {
@@ -36,8 +36,8 @@ int dijkstra(int n, int m, vector<vector<pair<int, int>>> adj) {
         if (v == n - 1) break;
 
         for (auto [u, w] : adj[v]) {
-            // We may push the same node multiple times from different
-            // neighbors. To avoid this ...
+            // OPTIMIZATION: Instead of updating the distances when we pop the node (guaranteed to be the minimum path),
+            // we add a relaxation check here (we may push the same node multiple times into the queue).
             if (dist[u] > d + w) {
                 dist[u] = d + w;
                 q.push({dist[u], u});
@@ -64,20 +64,20 @@ vector<long long> multipleDijkstra(int n, int m, int k, const vector<vector<pair
         // If we already have k distances for this node, skip it
         if (dist[node].size() >= (size_t)k) continue;
 
+        // The pq guarantees we pick each time the shortest distance
         dist[node].push_back(cost);
 
         // Early termination check.
         if (node == n - 1 && dist[node].size() == (size_t)k) break;
 
         // Explore neighbors
-        for (auto [next, w] : adj[node]) {
-            long long new_cost = cost + w;
-            pq.push({new_cost, next});
-        }
+        for (auto [next, w] : adj[node]) pq.push({cost + w, next});
     }
 
     return dist[n - 1];  // k shortest distances to destination
 }
+
+// WARNING: Most of graph problems are 1-based. Here I use 0-index and manually adjust when acquiring and printing data.
 
 int main(int argc, char* argv[]) {
     int n, m, k;
@@ -88,8 +88,17 @@ int main(int argc, char* argv[]) {
         int a, b, c;
         cin >> a >> b >> c;
 
+        a--;
+        b--;
+
         adj[a].push_back({b, c});
     }
+
+    auto result = multipleDijkstra(n, m, k, adj);
+    for (auto r : result) {
+        cout << r << " ";
+    }
+    cout << "\n";
 
     return 0;
 }
